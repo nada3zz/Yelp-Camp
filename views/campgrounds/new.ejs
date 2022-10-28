@@ -5,20 +5,29 @@
     <div class="col-6 offset-3">
 
             <h1> Add New Campground</h1>
-            <form action="/campgrounds" method="POST">
+            <form action="/campgrounds" method="POST" novalidate class="validated-form">
                 <div class="mb-3">
                     <label class="form-lable" for="title">Title</label>
-                    <input class="form-control" type="text" id="title" name="campground[title]">
+                    <input class="form-control" type="text" id="title" name="campground[title]" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
                 </div>
             
                 <div class="mb-3">
                     <label class="form-lable" for="location">Location</label>
-                    <input type="text" class="form-control" id="location" name="campground[location]">
+                    <input type="text" class="form-control" id="location" name="campground[location]" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
                 </div>
                 
                 <div class="mb-3">
                     <label class="form-lable" for="image">Image URL</label>
-                    <input type="text" class="form-control" id="image" name="campground[image]">
+                    <input type="text" class="form-control" id="image" name="campground[image]" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
                 </div>
 
                 <div class="input-group mb-3">
@@ -26,17 +35,22 @@
                     <div class="input-group">
                         <span class="input-group-text">$</span>
                         <input type="text" class="form-control" id="price" name="campground[price]" placeholder="0.00"
-                            aria-label="Amount (to the nearest dollar)">
+                            aria-label="Amount (to the nearest dollar)" required>
                         <span class="input-group-text">.00</span>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
                     </div>
                    
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-lable" for="description">Descriptionn</label>
-                    <textarea type="text" class="form-control" id="description" name="campground[description]"> </textarea>
-                </div>
-
+                    <div class="mb-3">
+                        <label class="form-label" for="description">Description</label>
+                        <textarea class="form-control" type="text" id="description" name="campground[description]" required></textarea>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
 
                 <button class="btn btn-success">Add Campground</button>
             </form>
@@ -44,4 +58,5 @@
             <a href="/campgrounds"> All Campgrounds</a>
 
     </div>
-</div>
+</div> 
+
