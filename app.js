@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 const path = require('path');
 const mongoose = require("mongoose");
 const methodOverride = require('method-override');
@@ -6,10 +7,16 @@ const ExpressError = require("./utils/ExpressError");
 const ejsMate = require("ejs-mate");
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
 
-const campgrounds = require('./routes/camgrounds');
-const reviews = require('./routes/reviews');
-const app = express();
+//Routes
+const campgroundsRoutes = require('./routes/camgrounds');
+const reviewsRoutes = require('./routes/reviews');
+const userRoutes = require('./routes/users');
+
+
 
 main().catch((err) => console.log(err));
 
@@ -41,15 +48,28 @@ const sessionConfig = {
 app.use(session(sessionConfig))
 app.use(flash());
 
+app.use(passport.initialize())
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
+  if(!['/login', '/'].includes(req.originalUrl)){
+    req.session.returnTo = req.originalUrl;
+  }
+  console.log(req.session)
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   next();
 })
 
+app.use("/", userRoutes);
 app.get('/', (req, res) => res.render('home') );
-app.use("/campgrounds", campgrounds);
-app.use("/campgrounds/:id/reviews", reviews);
+app.use("/campgrounds", campgroundsRoutes);
+app.use("/campgrounds/:id/reviews", reviewsRoutes);
+
 
 
 app.all('*', (req, res, next) => {
