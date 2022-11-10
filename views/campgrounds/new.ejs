@@ -5,7 +5,7 @@
     <div class="col-6 offset-3">
 
             <h1> Add New Campground</h1>
-            <form action="/campgrounds" method="POST" novalidate class="validated-form">
+            <form action="/campgrounds" method="POST" novalidate class="validated-form" enctype="multipart/form-data"> 
                 <div class="mb-3">
                     <label class="form-lable" for="title">Title</label>
                     <input class="form-control" type="text" id="title" name="campground[title]" required>
@@ -22,13 +22,6 @@
                     </div>
                 </div>
                 
-                <div class="mb-3">
-                    <label class="form-lable" for="image">Image URL</label>
-                    <input type="text" class="form-control" id="image" name="campground[image]" required>
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
 
                 <div class="input-group mb-3">
                     <label class="form-lable" for="price"> Campground Price</label>
@@ -44,12 +37,30 @@
                    
                 </div>
 
-                    <div class="mb-3">
-                        <label class="form-label" for="description">Description</label>
-                        <textarea class="form-control" type="text" id="description" name="campground[description]" required></textarea>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
+                <div class="mb-3">
+                    <label class="form-label" for="description">Description</label>
+                    <textarea class="form-control" type="text" id="description" name="campground[description]" required></textarea>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-file-lable" for="image">
+                    <span class="custom-file-text"> Add Images</span>
+                    </label>
+                    <input type="file" class="form-control" id="image" aria-describedby="inputGroupFileAddon04" aria-label="Upload"
+                        multiple name="image">
+                    
+                    
+                        <!-- <input type="text" class="form-control" id="image" name="campground[image]" required>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Button</button>
+                                        <label class="form-lable" for="image">Image </label>
+                                        <input type="file" name="image" id="" multiple>
+                                        -->
                     </div>
 
                 <button class="btn btn-success">Add Campground</button>

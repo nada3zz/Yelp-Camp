@@ -7,7 +7,7 @@
         <div class="col-6 offset-3">
     
             <h1> Edit Campground</h1>
-            <form action="/campgrounds/<%= campground._id %>?_method=PUT " method="POST" novalidate class="validated-form">
+            <form action="/campgrounds/<%= campground._id %>?_method=PUT " method="POST" novalidate class="validated-form" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label class="form-lable" for="title">Title</label>
                     <input class="form-control" type="text" id="title" name="campground[title]" value="<%= campground.title %>" required>
@@ -19,14 +19,6 @@
                 <div class="mb-3">
                     <label class="form-lable" for="location">Location</label>
                     <input type="text" class="form-control" id="location" name="campground[location]" value="<%= campground.location %>" required>
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-    
-                <div class="mb-3">
-                    <label class="form-lable" for="image">Image URL</label>
-                    <input type="text" class="form-control" id="image" name="campground[image]" value="<%= campground.image %>" required>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
@@ -54,13 +46,32 @@
                         Looks good!
                     </div>
                 </div>
-    
+
+                <div class="mb-3">
+                    <label class="form-file-lable" for="image">
+                        <span class="custom-file-text"> Add Images</span>
+                    </label>
+                    <input type="file" class="form-control" id="image" aria-describedby="inputGroupFileAddon04" aria-label="Upload"
+                        multiple name="image">
+                
+                </div>
+
+                <div class="mb-3">
+                    <% campground.images.forEach(function(img, i) { %> 
+                        <img src="<%= img.thumbnail %> " class="img-thumbnail" alt="">
+                        <div class="form-check-inline">
+                            <input type="checkbox" name="deleteImages[]" id="image-<%= i %>" value="<%= img.filename %>" >
+                        </div>
+                        <label for="image-<%= i %>"> Delete </label>
+                    
+                        <% }) %> 
+                </div>
     
                 <button class="btn btn-info">Update Campground</button>
             </form>
     
-        
-    
+            <a href="/campgrounds/<%= campground._id %> "> Back To Campground </a>
+
         </div>
     </div>
 
