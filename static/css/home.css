@@ -11,6 +11,11 @@ body {
   max-width: 60vw;
 }
 
+#navbrand {
+    margin-left: 0;
+
+}
+
 .nav-link {
     padding: 0.25rem 0;
     font-weight: 500;
