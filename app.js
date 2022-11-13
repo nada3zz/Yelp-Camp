@@ -13,19 +13,23 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
+const  MongoStore = require('connect-mongo')(session);
 
 //Routes
 const campgroundsRoutes = require('./routes/camgrounds');
 const reviewsRoutes = require('./routes/reviews');
 const userRoutes = require('./routes/users');
-
+//security
 const mongoSanitize = require('express-mongo-sanitize')
 const helmet = require('helmet');
+
+//const dbUrl = process.env.DB_URL
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/yelp-camp";
 
 main().catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect("mongodb://localhost:27017/yelp-camp");
+  await mongoose.connect(dbUrl);
 }
 
 const db = mongoose.connection;
@@ -41,9 +45,22 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(mongoSanitize({ replaceWith: '_'}))
 
+const secret = process.env.SECRET || "thisshouldbeabettersecret";
+
+const store = new MongoStore({
+  url: dbUrl,
+  secret: secret,
+  touchAfter: 24 * 60 * 60
+});
+
+store.on('error', function(e){
+  console.log('SESSION STORE ERROR', e)
+})
+
 const sessionConfig = {
+  store,
   name: 'session',
-  secret: "thisshouldbeabettersecret",
+  secret: secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -138,4 +155,5 @@ app.use((err, req, res, next) => {
   if (!err.message) err.message = "Something Went Wrong";
   res.status(statusCode).render('error', { err });
 });
-app.listen(3030, () => console.log("serving on port 3030"));
+const port = process.env.PORT || 3000
+app.listen(port, () => console.log(`serving on port ${port}`));
